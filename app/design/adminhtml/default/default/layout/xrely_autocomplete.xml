@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout>
+    <default>
+        <reference name="notifications">
+            <block type="xrely_autocomplete/adminhtml_notifications" name="xrely_autocomplete_notifications" template="xrely_autocomplete/notification.phtml"/>
+        </reference>
+        <reference name="head">
+            <action method="addJs"><script>xrely_autocomplete/admin.js</script></action>    
+        </reference>
+    </default>
+</layout>

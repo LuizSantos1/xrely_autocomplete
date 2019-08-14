@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Module initial config
+ *
+ * @author Magento
+ */
+-->
+<config>
+    <modules>
+        <Xrely_Autocomplete>
+            <active>true</active>
+            <codePool>community</codePool>
+<!--            <depends>
+                <Mage_Adminhtml />
+            </depends>-->
+        </Xrely_Autocomplete>
+    </modules>
+</config>

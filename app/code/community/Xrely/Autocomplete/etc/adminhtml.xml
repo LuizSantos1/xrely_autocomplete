@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <xrely_autocomplete translate="label" module="xrely_autocomplete">
+                                        <title>XreY Autocomplete</title>
+                                    </xrely_autocomplete>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+    <menu>
+        <xrely_autocomplete translate="XrelY" module="xrely_autocomplete">
+            <title>XrelY</title>
+            <sort_order>999</sort_order>
+            <children>
+                <design translate="title" module="xrely_autocomplete">
+                    <title>Design Autocomplete</title>
+                    <sort_order>2</sort_order>
+                    <action>xrely_autocomplete/adminhtml_redirect/design</action>
+                </design> 
+            </children>
+            <children>
+                <dashboard translate="title" module="xrely_autocomplete">
+                    <title>Dashboard</title>
+                    <sort_order>1</sort_order>
+                    <action>xrely_autocomplete/adminhtml_redirect/post</action>
+                </dashboard> 
+            </children>
+            <children>
+                <configure translate="title" module="xrely_autocomplete">
+                    <title>Configure</title>
+                    <sort_order>1</sort_order>
+                    <action>adminhtml/system_config/edit/section/xrely_autocomplete</action>
+                </configure> 
+            </children>
+        </xrely_autocomplete>
+    </menu>
+</config>

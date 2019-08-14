@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Xrely_Autocomplete",
+    "type": "magento-module",
+    "license": "MITL",
+    "homepage": "",
+    "description": "Xrely Autocomplete",
+    "authors": [
+    {
+        "name": "Jugal",
+        "email": "jugal@xrely.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

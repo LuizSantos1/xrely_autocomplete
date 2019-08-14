@@ -1,0 +1,52 @@
+<?php
+if(Mage::getStoreConfigFlag('xrely_autocomplete/config/enabled')){ ?>
+    <style>
+    .autocomplete-suggestions{
+        text-align: left;
+        background-color: whitesmoke;
+            cursor: default;
+    }
+    </style>
+	<script type="text/javascript">
+		function formatSuggestion(keyword,keywordData)
+        {
+            catHtml = "";
+            try{
+                for (var i = keywordData.data.categories.length - 1; i >= 0; i--) {
+                    
+                    catHtml += "<div><small style='color:green'>in"+keywordData.data.categories[i].name+"</small></div>";
+                };
+                
+            }catch(ex){
+
+            }
+            img = "";
+            height = "auto";
+            if(keywordData.data.image)
+            {
+                height = "42px";
+               img = "<img style='float:left;'  src='"+keywordData.data.image+"' />"; 
+            }
+            return "<div style='height:"+height+"'>"+img+"<span><small>"+keywordData.value+"</small></span></div>"+catHtml;
+        }
+        function suggestionSelected(keyword,keywordData)
+		{
+			if(keywordData.data.url)
+            {
+                window.location.href= keywordData.data.url;
+            }
+            else
+            {
+                this.form.submit();
+            }
+		}
+        var xfindSelect = "#search";
+            (function() {
+            var s = document.createElement("script");
+            s.type = "text/javascript";
+            s.src = "<?php echo $this->getXrelyJsUrl(); ?>";
+            var x = document.getElementsByTagName("head")[0];
+            x.appendChild(s);
+            })();
+</script>
+<?php } ?>

@@ -1,0 +1,114 @@
+<div class="content-header">
+    <h3><?php echo Mage::helper('adminhtml')->__('Let\'s start...') ?></h3>
+</div>
+<style>
+    #xrely-progress{
+        width: 70%
+    }
+    #xrely-progress .progress{
+        width: 100%;
+        height: 8px;
+        border: 1px solid #eee2be;
+        background-color: rgb(255, 249, 233);
+    }
+    .sync-bar{
+        background-color: #eb5e00;
+        height: 100%;
+        width: 0%;
+    }
+    .sync-status{
+        margin-left: 0;
+        height: 16px;
+        border-left: 1px solid #eb5e00;
+        font-size: 10px;
+    }
+    .logger{
+        margin-top: 3px;
+    }
+</style>
+<div id="xrely-progress">
+    <div class="progress">
+        <div class="sync-bar"></div>
+        <div class="sync-status"><b style="margin-left: 2px;">0%</b></div>
+    </div>
+</div>
+<div class="console-log" style="margin-top:30px;">
+    <ul class="logger">
+        
+    </ul>
+</div>
+<p><?php // echo Mage::helper('adminhtml')->__('We\'re in our typing table, coding away more features for Magento. Thank you for your patience.')           ?></p>
+<script>
+    var urls = <?php
+echo json_encode(
+        array(
+            'prepare' => array(
+                'init' => Mage::helper('adminhtml')->getUrl('xrely_autocomplete/adminhtml_publish/prepare'),
+                'status' => Mage::helper('adminhtml')->getUrl('xrely_autocomplete/adminhtml_publish/status')
+            ),
+            'sync' => array(
+                'status' => Mage::helper('adminhtml')->getUrl('xrely_autocomplete/adminhtml_publish/progress')
+            )
+        )
+);
+?>;
+    Ajax.Responders.unregister(varienLoaderHandler.handler);
+    var currentTimeout;
+    var styler; 
+    var logger = $$('ul.logger')[0];
+
+    if(typeof Element.morph == "function")
+        styler = Element.morph;
+    else
+        styler = Element.setStyle;
+
+    logger.insert("<li><strong>Starting Sync</strong></li>");
+    function start()
+    {
+        new Ajax.Request(urls.prepare.init, {
+            method: 'get',
+            onCreate : function ()
+            {
+                // ;
+            },
+            onComplete: function (transport) {
+                /*
+                 * Sync Completes
+                 */
+                data = JSON.parse(transport.responseText);
+                percentage = Math.ceil((data.status.current/data.status.total)*100);
+                styler.call(this,($$("div.sync-bar")[0]),{width:percentage + "%"});
+                styler.call(this,($$("div.sync-status")[0]),{marginLeft: percentage+"%"});
+                $$("div.sync-status b")[0].update(Math.ceil((data.status.current/data.status.total)*100)+"%");
+                if(data.status.code == 3)
+                {
+                   logger.insert("<li><strong>Syncronization is done</strong></li><li><a href='JavaScript:window.close()'>close window</a></li>");
+                   return;
+                }
+                if(data.status.code == 4)
+                {
+                   logger.insert("<li><strong>"+data.status.text+" <a href='"+data.status.link+"'><b>upgrade</b></a></strong></li><li><a href='JavaScript:window.close()'>close window</a></li>");
+                   return;
+                }
+                if(!$$("ul.logger li.productCount")[0])
+                {
+                    $$("ul.logger")[0].insert("<li class='productCount'><strong><span>"+data.status.current+"/"+data.status.total+"</span> Product has been processes </strong></li>");  
+                }
+                else
+                {
+                    $$("ul.logger li.productCount span")[0].update(data.status.current+"/"+data.status.total);
+                }
+                if(data.status.current != data.status.total)
+                {
+                   start();
+                }   
+                else
+                {
+                    logger.insert("<li><strong>Syncronization is done</strong></li><li><a href='JavaScript:window.close()'>close window</a></li>");
+                }
+            }
+        });    
+    }
+    start();
+    
+</script>

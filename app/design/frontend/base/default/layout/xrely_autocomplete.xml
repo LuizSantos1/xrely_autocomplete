@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento frontend layout
+ *
+ * @author Magento
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <block name="xrely_js" template="autocomplete/js.phtml" type="xrely_autocomplete/js"/>
+        </reference>
+    </default>
+     <xrely_autocomplete_listen_multiply>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+    </xrely_autocomplete_listen_multiply>
+</layout>
