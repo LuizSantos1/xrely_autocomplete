@@ -1,0 +1,36 @@
+<?php
+$baseUrl = preg_replace('/^https?\:/is', '', trim(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB),'/')).'/';
+$cdnBaseUrl = preg_replace('/^https?\:/is', '', trim($this->getXRelYCDNBaseUrl(),'/')).'/';
+
+if(Mage::getStoreConfigFlag('xrely_autocomplete/config/enabled')){ ?>
+
+    <script type="text/javascript" src="<?php echo $baseUrl  ?>js/xrely_autocomplete/jquery.range.js"></script>
+    <script type="text/javascript" src="<?php echo $cdnBaseUrl  ?>js/magento/search.js"></script>
+    <script type="text/javascript">
+        var xrely_facetList = <?php echo $this->getFacetList(); ?>;
+        var image_base_url = "<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'catalog/product' ?>";
+        var search_base_url = "<?php echo $this->getXRelYSearchBaseUrl(); ?>";
+        var search_account_alise;
+        if(window.location.hostname == "localhost"){
+            search_account_alise = "<?php echo $this->getLoclhostDomainName(); ?>";
+        }else{
+            search_account_alise = window.location.hostname;
+        }
+        compile_template();
+        var currency_symbol = "<?php $currency_code = Mage::app()->getStore()->getCurrentCurrencyCode();
+        echo Mage::app()->getLocale()->currency( $currency_code )->getSymbol(); ?>";
+        var xrely_default_values = {
+            "thumbnail":"<?php echo $this->getXRelyBaseUrl(); ?>img/magento/product-default-image.png",
+            "currencysymbol" : currency_symbol
+        };
+        var get_q = "<?php $getQ = Mage::app()->getRequest()->getParam('q');  echo $getQ != ""?$getQ:"" ; ?>";
+        if(get_q == ""){
+            get_result(xrely_facetList.join(","),get_param_list());
+        }else{
+            jQuery(document).ready(function() {
+                jQuery(".xrely_autocomplete input").val(get_q);
+                x_text_filter(jQuery(".xrely_autocomplete form")[0]);
+            }); 
+        }
+</script>
+<?php } ?>

@@ -1,5 +1,4 @@
 <?php
-
 //var_dump($user = Mage::getSingleton('admin/session')->getUser());;die;
 $installer = $this;
 

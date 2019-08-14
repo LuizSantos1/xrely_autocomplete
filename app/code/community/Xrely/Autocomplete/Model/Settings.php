@@ -41,13 +41,11 @@ class Xrely_Autocomplete_Model_Settings extends Mage_Core_Model_Abstract
         $collection->addFieldToFilter('eid',$prodId);
         return $collection->count() > 0;
     }
-    public static function getTotalProduct()
+    public function getTotalProduct()
     {
     	if(self::$totalProduct === null)
     	{
-    		$collection = Mage::getResourceModel('reports/product_collection');
-	        $collection->addStoreFilter();
-	        return self::$totalProduct =  $collection->getSize();	
+	        return self::$totalProduct =  $this->getCollection()->getSize();	
     	}
     	return self::$totalProduct;
     }

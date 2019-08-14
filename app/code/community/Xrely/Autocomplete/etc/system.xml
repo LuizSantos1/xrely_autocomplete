@@ -43,12 +43,22 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </imagefield>
+                        <serchable_field translate="title">
+                            <label>Select Searchable field</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <comment><![CDATA[<b>Hold Ctrl key</b> to select multiple attributes]]></comment>
+                            <source_model>xrely_autocomplete/adminhtml_fieldList</source_model>
+                            <sort_order>3</sort_order> <!-- feel free to change this value -->
+                            <show_in_default>1</show_in_default><!-- can be 0 or 1 -->
+                            <show_in_website>0</show_in_website><!-- can be 0 or 1 -->
+                            <show_in_store>0</show_in_store><!-- can be 0 or 1 -->
+                        </serchable_field>
                         <sync translate="label">
                             <label>Sync products details with XrelY</label>
                             <comment>Allow us to index product details</comment>
                             <frontend_model>xrely_autocomplete/adminhtml_syncbtn</frontend_model> 
                             <frontend_type>button</frontend_type>
-                            <sort_order>3</sort_order>
+                            <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -62,6 +72,37 @@
                      ]]>
                     </comment>
                 </config>
+                <debug translate="label">
+                     <label>Debug Setting</label>
+                     <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enable Logging</label>
+                            <frontend_type>select</frontend_type>
+                            <comment><![CDATA[Turns on Error reporting on your store.Error gets logged in <b>{base_dir}/var/log/XRelY_Error.log</b>]]></comment>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <log_level translate="label">
+                            <label>Log Level</label>
+                            <frontend_type>select</frontend_type>
+                            <comment><![CDATA[Turns on this setting to debug XRely Extension]]></comment>
+                            <source_model>xrely_autocomplete/system_config_log_level</source_model>
+                            <backend_model>xrely_autocomplete/config_log_level</backend_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </log_level>
+                    </fields>
+                </debug>
             </groups>
         </xrely_autocomplete>
     </sections>

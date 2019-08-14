@@ -24,5 +24,21 @@ if (isset($details["success"]) && $details["success"] == true)
         	Mage::getModel('core/config')->saveConfig('xrely_autocomplete/config/localhost_domain', $details["details"]["host"]);
         }
         Mage::getModel('core/config')->saveConfig('xrely_autocomplete/config/time', time());
+        /*
+        Setup default configuration for searchable fields
+        */
+        $productEntityType = Mage::getModel('eav/entity_type')->loadByCode(Mage_Catalog_Model_Product::ENTITY);
+        $attributeSetCollection = Mage::getResourceModel('eav/entity_attribute_set_collection');
+        $attributesInfo = Mage::getResourceModel('eav/entity_attribute_collection')
+        ->setEntityTypeFilter($productEntityType->getId())  //4 = product entities
+        ->addSetInfo()
+        ->getData();
+        $defaultSearchable = [];
+        foreach ($attributesInfo  as $key => $value) {
+            if($value["is_searchable"] == 1 ||  in_array($value['attribute_code'], array('image','small_image','media_gallery','gallery')))
+                $defaultSearchable[] = $value['attribute_code'];
+        }
+        $searchableConf = implode(",", $defaultSearchable);
+        Mage::getModel('core/config')->saveConfig('xrely_autocomplete/config/serchable_field', $searchableConf); 
     }
 }  

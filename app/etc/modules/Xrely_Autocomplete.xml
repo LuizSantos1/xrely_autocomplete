@@ -11,9 +11,7 @@
         <Xrely_Autocomplete>
             <active>true</active>
             <codePool>community</codePool>
-<!--            <depends>
-                <Mage_Adminhtml />
-            </depends>-->
+            <version>1.1.0.0</version>
         </Xrely_Autocomplete>
     </modules>
 </config>

@@ -3,13 +3,14 @@
 /**
  * Module configuration
  *
- * @author Magento
+ * @author Jugal Patel
+ * @contact jugal@xrely.com
  */
 -->
 <config>
     <modules>
         <Xrely_Autocomplete>
-            <version>1.0.0.0</version>
+            <version>1.1.0.0</version>
         </Xrely_Autocomplete>
     </modules>
     <global>
@@ -62,6 +63,14 @@
                    </Xrely_Autocomplete_Model_Observer>
                 </observers>
             </catalog_product_save_after>
+            <catalog_product_delete_after>
+                <observers>
+                    <Xrely_Autocomplete_Model_Observer>
+                        <class>Xrely_Autocomplete_Model_Observer</class>
+                        <method>deleteProductName</method>
+                   </Xrely_Autocomplete_Model_Observer>
+                </observers>
+            </catalog_product_delete_after>
         </events>
     </global>
     <frontend>
@@ -71,6 +80,13 @@
                 <args>
                     <module>Xrely_Autocomplete</module>
                     <frontName>xrely_autocomplete</frontName>
+                </args>
+            </xrely_autocomplete>
+            <xrely_autocomplete>
+                <use>standard</use>
+                <args>
+                    <module>Xrely_Autocomplete</module>
+                    <frontName>s</frontName>
                 </args>
             </xrely_autocomplete>
         </routers>

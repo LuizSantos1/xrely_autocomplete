@@ -1,52 +1,70 @@
 <?php
-if(Mage::getStoreConfigFlag('xrely_autocomplete/config/enabled')){ ?>
+$baseUrl = preg_replace('/^https?\:/is', '', trim(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB), '/')) . '/';
+
+if (Mage::getStoreConfigFlag('xrely_autocomplete/config/enabled'))
+{
+    ?>
     <style>
-    .autocomplete-suggestions{
-        text-align: left;
-        background-color: whitesmoke;
+        .autocomplete-suggestions{
+            text-align: left;
+            background-color: whitesmoke;
             cursor: default;
-    }
+            min-width: 320px;
+            box-shadow: 1px 1px 1px;
+        }
+        .autocomplete-suggestion{
+            cursor: pointer;
+        }
+        .autocomplete-group{
+            color: black;
+        }
     </style>
-	<script type="text/javascript">
-		function formatSuggestion(keyword,keywordData)
+    <script type="text/javascript">
+        var xrely_search_base_url = "<?php echo Mage::getUrl('s/search'); ?>";
+        /*
+            //@Customization Uncomment following function to decorate drop down list as per your choise.
+            for any further info/query please send email to query@xrely.com  
+        */ 
+        /*function formatSuggestion(keyword, keywordData)
         {
             catHtml = "";
-            try{
+            try {
                 for (var i = keywordData.data.categories.length - 1; i >= 0; i--) {
-                    
-                    catHtml += "<div><small style='color:green'>in"+keywordData.data.categories[i].name+"</small></div>";
-                };
-                
-            }catch(ex){
+
+                    catHtml += "<div     style='margin-left: 52px;'><span style='color:green;font-weight:bold;font-size: 0.9em;'>in " + keywordData.data.categories[i].name + "</span></div>";
+                }
+                ;
+
+            } catch (ex) {
 
             }
             img = "";
             height = "auto";
-            if(keywordData.data.image)
+            if (keywordData.data.image)
             {
-                height = "42px";
-               img = "<img style='float:left;'  src='"+keywordData.data.image+"' />"; 
+                img = '<div style="width:42px;display:table;'
+                        +'float: left;height: 42px;margin-left: 5px;margin-right: 5px;"><div style="display:table-cell;vertical-align:middle;"><img     style="margin: 0 auto;" src="' + keywordData.data.image + '" /></div></div>';
             }
-            return "<div style='height:"+height+"'>"+img+"<span><small>"+keywordData.value+"</small></span></div>"+catHtml;
-        }
-        function suggestionSelected(keyword,keywordData)
-		{
-			if(keywordData.data.url)
+            return  img +"<div style='height:" + height + "'>" + "<div><span style='text-transform: capitalize;'>" + keywordData.value + "</span></div>" + catHtml + "</div>";
+        }*/
+        function suggestionSelected(keyword, keywordData)
+        {
+            if (keywordData.data.url)
             {
-                window.location.href= keywordData.data.url;
+                window.location.href = keywordData.data.url;
             }
             else
             {
                 this.form.submit();
             }
-		}
+        }
         var xfindSelect = "#search";
-            (function() {
+        (function () {
             var s = document.createElement("script");
             s.type = "text/javascript";
             s.src = "<?php echo $this->getXrelyJsUrl(); ?>";
             var x = document.getElementsByTagName("head")[0];
             x.appendChild(s);
-            })();
-</script>
+        })();
+    </script>
 <?php } ?>
