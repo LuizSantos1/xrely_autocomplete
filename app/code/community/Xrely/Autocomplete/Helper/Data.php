@@ -3,11 +3,11 @@
 class Xrely_Autocomplete_Helper_Data extends Mage_Core_Helper_Abstract
 {
 
-    const KEYWORD_DATA_API = "http://localhost/client/WebService/acceptPostKeyword";
-    const STORE_REGISTER_APT = 'http://localhost/client/WebService/register';
-    const KEY_SIGN_IN_SERVICE_URL = 'http://localhost/client/WebService/signInByAPIKey';
-    const DESIGN_SERVICE_URL = 'http://localhost/client/WebService/signInAndDesignAPIKey';
-    const UPGRADE_SERVICE_URL = 'http://localhost/client/WebService/signInAndUpgradeAPIKey/magento';
+    const KEYWORD_DATA_API = "http://autocomplete.xrely.com/WebService/acceptPostKeyword";
+    const STORE_REGISTER_APT = 'http://autocomplete.xrely.com/WebService/register';
+    const KEY_SIGN_IN_SERVICE_URL = 'http://autocomplete.xrely.com/WebService/signInByAPIKey';
+    const DESIGN_SERVICE_URL = 'http://autocomplete.xrely.com/WebService/signInAndDesignAPIKey';
+    const UPGRADE_SERVICE_URL = 'http://autocomplete.xrely.com/WebService/signInAndUpgradeAPIKey/magento';
     var $apiKey = null;
     
     public function __construct()
