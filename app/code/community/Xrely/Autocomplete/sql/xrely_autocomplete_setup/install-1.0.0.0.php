@@ -28,7 +28,11 @@ $table = $installer->getConnection()
             'nullable' => false,
                 ), 'Value')
         ->addColumn('comment', Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
-    'nullable' => true,
-        ), 'Comment');
+                'nullable' => true,
+        ), 'Comment')    
+        ->addIndex(
+        'xrely_autocomplete_eid_index',
+        'eid'
+    );;
 $installer->getConnection()->createTable($table);
 $installer->endSetup();

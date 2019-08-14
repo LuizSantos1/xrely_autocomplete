@@ -37,13 +37,13 @@
         
     </ul>
 </div>
-<p><?php // echo Mage::helper('adminhtml')->__('We\'re in our typing table, coding away more features for Magento. Thank you for your patience.')           ?></p>
 <script>
     var urls = <?php
 echo json_encode(
         array(
             'prepare' => array(
-                'init' => Mage::helper('adminhtml')->getUrl('xrely_autocomplete/adminhtml_publish/prepare'),
+                'init' => Mage::helper('adminhtml')->getUrl('xrely_autocomplete/adminhtml_publish/init'),
+                'start' => Mage::helper('adminhtml')->getUrl('xrely_autocomplete/adminhtml_publish/prepare'),
                 'status' => Mage::helper('adminhtml')->getUrl('xrely_autocomplete/adminhtml_publish/status')
             ),
             'sync' => array(
@@ -62,8 +62,9 @@ echo json_encode(
     else
         styler = Element.setStyle;
 
-    logger.insert("<li><strong>Starting Sync</strong></li>");
-    function start()
+    logger.insert("<li><strong>Preparing for Sync</strong></li>");
+    $$("ul.logger")[0].insert("<li class='productCount'><strong><span>"+0+"/"+0+"</span> Product has been processes </strong></li>");
+    function init()
     {
         new Ajax.Request(urls.prepare.init, {
             method: 'get',
@@ -75,29 +76,40 @@ echo json_encode(
                 /*
                  * Sync Completes
                  */
-                data = JSON.parse(transport.responseText);
-                percentage = Math.ceil((data.status.current/data.status.total)*100);
-                styler.call(this,($$("div.sync-bar")[0]),{width:percentage + "%"});
-                styler.call(this,($$("div.sync-status")[0]),{marginLeft: percentage+"%"});
-                $$("div.sync-status b")[0].update(Math.ceil((data.status.current/data.status.total)*100)+"%");
-                if(data.status.code == 3)
-                {
-                   logger.insert("<li><strong>Syncronization is done</strong></li><li><a href='JavaScript:window.close()'>close window</a></li>");
-                   return;
-                }
-                if(data.status.code == 4)
-                {
-                   logger.insert("<li><strong>"+data.status.text+" <a href='"+data.status.link+"'><b>upgrade</b></a></strong></li><li><a href='JavaScript:window.close()'>close window</a></li>");
-                   return;
-                }
-                if(!$$("ul.logger li.productCount")[0])
-                {
-                    $$("ul.logger")[0].insert("<li class='productCount'><strong><span>"+data.status.current+"/"+data.status.total+"</span> Product has been processes </strong></li>");  
-                }
-                else
-                {
+                 data = JSON.parse(transport.responseText);
+                try{
+                    styleBar(data);
                     $$("ul.logger li.productCount span")[0].update(data.status.current+"/"+data.status.total);
+                } catch(ex)
+                {
+                    if(console && console.log)
+                    {
+                        console.log("Sumething unexpected happend");
+                    }
                 }
+                if(setUpdate(data))
+                {
+                    logger.insert("<li><strong>Starting Sync</strong></li>");
+                    start();
+                }
+            }
+        });    
+    }
+    function start()
+    {
+        new Ajax.Request(urls.prepare.start, {
+            method: 'get',
+            onCreate : function ()
+            {
+                // ;
+            },
+            onComplete: function (transport) {
+                /*
+                 * Sync Completes
+                 */
+                data = JSON.parse(transport.responseText);
+                styleBar(data);
+                setUpdate(data);
                 if(data.status.current != data.status.total)
                 {
                    start();
@@ -109,6 +121,36 @@ echo json_encode(
             }
         });    
     }
-    start();
+    function setUpdate (data) {
+        if(data.status.code == 3)
+        {
+           logger.insert("<li><strong>Syncronization is done</strong></li><li><a href='JavaScript:window.close()'>close window</a></li>");
+           return;
+        }
+        if(data.status.code == 4)
+        {
+           logger.insert("<li><strong>"+data.status.text+" <a href='"+data.status.link+"'><b>upgrade</b></a></strong></li><li><a href='JavaScript:window.close()'>close window</a></li>");
+           return;
+        }
+        if(!$$("ul.logger li.productCount")[0])
+        {
+            $$("ul.logger")[0].insert("<li class='productCount'><strong><span>"+data.status.current+"/"+data.status.total+"</span> Product has been processes </strong></li>");  
+        }
+        else
+        {
+            $$("ul.logger li.productCount span")[0].update(data.status.current+"/"+data.status.total);
+            return true;
+        }
+        return false;
+    }
+    function styleBar (data) {
+
+        percentage = Math.ceil((data.status.current/data.status.total)*100);
+        styler.call(this,($$("div.sync-bar")[0]),{width:percentage + "%"});
+        styler.call(this,($$("div.sync-status")[0]),{marginLeft: percentage+"%"});
+        $$("div.sync-status b")[0].update(Math.ceil((data.status.current/data.status.total)*100)+"%");
+
+    }
+    init();
     
 </script>
